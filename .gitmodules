@@ -1,0 +1,6 @@
+[submodule "experiments/fly-wirehead"]
+	path = experiments/fly-wirehead
+	url = https://github.com/mattyhempstead/fly-wirehead
+[submodule "experiments/fruitless"]
+	path = experiments/fruitless
+	url = https://github.com/nicodunks/fruitless
