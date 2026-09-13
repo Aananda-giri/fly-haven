@@ -3,8 +3,14 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 /data/
+/data-v2/
 /runs/
 /assets/
 Untitled.blend
 nbexec-full.log
+nbexec-full-v2*.log
+fly-chess-v2.executed-*.ipynb
+runs-*.log
+launch_pilot.sh
+watch_pilot.sh
 **.env

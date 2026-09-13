@@ -12,6 +12,34 @@ same frozen connectome and has it play chess, as a comparison against [flychess-
 fly-plus-linear-readout design. It reuses the fruitless project's prepared graph, and downloads its
 own chess data and a Stockfish binary into `data/fly-chess/`.
 
+[`fly-chess-v2.ipynb`](fly-chess-v2.ipynb) is a correctness pass over that notebook, prompted by
+review findings against the original (a `stockfish_cp_loss` perspective bug, a PUCT selection/backup
+sign error, an unsupported absolute-Elo estimate, a lesion control that couldn't prove its own claim,
+and several architecture/spec drifts — see `runs/fly-chess-v2/*/manifest.json` for the corrected
+design's exact identity). It keeps the original `fly-chess.ipynb` and its already-running full-mode
+job untouched, and adds: a 4,184-class move vocabulary with distinct underpromotions, side-to-move
+value labels, a linear (not MLP) motor decoder, mover-perspective Stockfish scoring, pending-leaf-safe
+PUCT with `1 − child.q()` opponent-perspective backup, matched-step controls (C0/C1/C2) plus
+lesion/no-graft/no-senses/relay-permute interventions, W/D/L + paired-opening match results with
+unresolved games (no invented Elo), atomic checkpoints with full RNG state for exact resume, and an
+explicit `baseline_unavailable` result instead of assuming `EF-Code/flychess` or `Noeljarillo/chessfly`
+is the deployed site. `tests/test_fly_chess_v2.py` exercises the notebook's own tagged cell
+definitions (move round-trips, label perspective, search backup/mate-in-one, checkpoint resume,
+shuffle invariants, active-subgraph gradient equivalence, …) without downloading data or training. Run
+it with `FLY_CHESS_DEVICE=cpu FLY_CHESS_MODE=smoke` for a synthetic-graph pipeline check in minutes,
+add `FLY_CHESS_REAL_GRAPH=1` to exercise the real MaleCNS graph (166,606 neurons, 25.57M edges)
+without a GPU, or `FLY_CHESS_MODE=full` for the real four-hour pilot once the GPU is free.
+
+[`fly-chess-v2-colab.ipynb`](fly-chess-v2-colab.ipynb) is a standalone Colab port of the corrected
+notebook above — upload it to Colab (or open from Drive/GitHub), pick a GPU runtime, and
+`Runtime -> Run all`. It downloads everything itself (no local repo needed): a `pip install` cell for
+`chess`/`zstandard`/`scikit-learn`/`pyarrow`, and, in `MODE="full"`, the real MaleCNS graph built
+directly from the public HHMI Janelia / Google Research source (CC BY 4.0, checksum-verified,
+~1.1 GB) instead of reusing the local `experiments/fruitless` build. Verified locally end-to-end in
+smoke mode (synthetic connectome, CPU); the real-graph download path is adapted from this repo's
+existing (uncorrected) `fly-chess-colab.ipynb` and is worth watching on its first real run. This is
+not the same file as `fly-chess-colab.ipynb`, which ports the original, still-buggy notebook.
+
 ## Fly Heaven: a connectome-driven film
 
 [`heaven/`](heaven/) presents the full 166,700-neuron MaleCNS v1.0 brain's
