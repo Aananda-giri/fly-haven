@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fly-wirehead"
+version = "0.2.0"
+description = "Local MaleCNS fly-connectome experiment driven by shortform video pixels"
+requires-python = ">=3.11"
+dependencies = ["numpy==2.4.6", "pandas==3.0.5", "pyarrow==25.0.1", "Pillow==12.3.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+flywirehead = "flywirehead.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["flywirehead*"]
+
+[tool.setuptools.package-data]
+"flywirehead.neural" = ["*.cpp", "*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+

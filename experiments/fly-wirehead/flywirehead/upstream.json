@@ -1,0 +1,29 @@
+{
+  "repository": "https://github.com/nftechie/stonkfly",
+  "commit": "78ef3e05ab0fa086032098558d893667068944a0",
+  "license": "MIT",
+  "adaptations": [
+    "Trading controller omitted",
+    "Data environment variable renamed FLYWIREHEAD_DATA",
+    "Local shortform observation controller added",
+    "Dataset preparation can reuse already verified local graph arrays"
+  ],
+  "source_sha256": {
+    "stonkfly/neural/circuit.py": "e9ed5d237c7c01fbaf80f75cec75f5f9f2e33965461e3480813ade78597f6c45",
+    "stonkfly/neural/kernel.cpp": "e2d4d584f4633613277bb1bf6ea7ba20855c01a332ae2e9344ed7782604c8509",
+    "stonkfly/neural/neurons.lock.json": "89ab067db991c674f1fbe4fcaf2d8d5dabab9337e8cb6a24270ad8e8b5c582c7",
+    "stonkfly/neural/arrays.lock.json": "39de6a2e46be552b734b822c8452e07ed05b5e8af906c5f79db7d63c2d68515e",
+    "stonkfly/neural/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stonkfly/neural/sensory.py": "46ba99fd966e251a3422f77fdd27a78fe45aa45f9fd14e498e3c5e578566f7ac",
+    "stonkfly/neural/datasets.json": "4532ef8b2f08d819cb31dee3a40f21685112971a05697cf0fa7fa634cf9035b8",
+    "stonkfly/neural/brain.py": "895d0bcab7e03e859547e516905edc39fd2af4bb7ff7a7bf67d819bc15ac8c4d",
+    "stonkfly/neural/rule.py": "3c80680450c3b73042e332bd7ce8289d7d74d8695c60e7ac19eefd9759d95c44",
+    "stonkfly/neural/common.py": "e7986a92827c79e9da59c8ce7f7e8df262d188a5a93a173e37b1cd1c011aadfe",
+    "stonkfly/neural/visual.py": "65c9639ab7fb6c5d77f83f297c4d82cf8b7a068957bd78e1da957b3f9aeae952",
+    "stonkfly/neural/connectome.py": "cd9ceb396ca9b408eb7beafe8abd0894d5c5e13aa63c9ec23ffbc55526f11d18",
+    "stonkfly/neural/transmitters.py": "b1c1b080da44bdeaf498cdce3504134c1cf070b875f84a4007f16002b2956f93",
+    "stonkfly/neural/prepare.py": "38a2821a8ee26fed74d88146931f77331038d6c2a69c4be8f885705630d130f3",
+    "stonkfly/neural/state.py": "de3dac9f37f7c12546124383410e1ac0e720459e2f8e636d3fa155dce6a7d220",
+    "stonkfly/neural/sources.lock.json": "a518a766aa46b14b7b9230a108a63b902acc1e3386f123f45d5c52311342efd8"
+  }
+}
