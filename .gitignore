@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+/data/
+/runs/
+/assets/
+Untitled.blend
+nbexec-full.log
+**.env
