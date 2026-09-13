@@ -1,5 +1,13 @@
 .venv/
 __pycache__/
 .ipynb_checkpoints/
+.pytest_cache/
 /data/
+/data-v2/
 /runs/
+fly-chess.executed-*.ipynb
+runs-*.log
+# /data and .venv are symlinks in this worktree, which the slash-suffixed
+# patterns above don't match (those only match real directories).
+/data
+/.venv

@@ -12,6 +12,24 @@ same frozen connectome and has it play chess, as a comparison against [flychess-
 fly-plus-linear-readout design. It reuses the fruitless project's prepared graph, and downloads its
 own chess data and a Stockfish binary into `data/fly-chess/`.
 
+**This `version-2` worktree/branch is a correctness pass over that notebook**, prompted by review
+findings against the original (a `stockfish_cp_loss` perspective bug, a PUCT selection/backup sign
+error, an unsupported absolute-Elo estimate, a lesion control that couldn't prove its own claim, and
+several architecture/spec drifts — see `runs/fly-chess-v2/*/manifest.json` for the corrected design's
+exact identity). It keeps the original notebook and its already-running full-mode job on `master`
+untouched, and adds: a 4,184-class move vocabulary with distinct underpromotions, side-to-move value
+labels, a linear (not MLP) motor decoder, mover-perspective Stockfish scoring, pending-leaf-safe PUCT
+with `1 − child.q()` opponent-perspective backup, matched-step controls (C0/C1/C2) plus lesion/no-graft/
+no-senses/relay-permute interventions, W/D/L + paired-opening match results with unresolved games (no
+invented Elo), atomic checkpoints with full RNG state for exact resume, and an explicit
+`baseline_unavailable` result instead of assuming `EF-Code/flychess` or `Noeljarillo/chessfly` is the
+deployed site. `tests/test_fly_chess_v2.py` exercises the notebook's own tagged cell definitions
+(move round-trips, label perspective, search backup/mate-in-one, checkpoint resume, shuffle invariants,
+active-subgraph gradient equivalence, …) without downloading data or training. Run it with
+`FLY_CHESS_DEVICE=cpu FLY_CHESS_MODE=smoke` for a synthetic-graph pipeline check in minutes, add
+`FLY_CHESS_REAL_GRAPH=1` to exercise the real MaleCNS graph (166,606 neurons, 25.57M edges) without a
+GPU, or `FLY_CHESS_MODE=full` for the real four-hour pilot once the GPU is free.
+
 ## Fly Heaven: a connectome-driven film
 
 [`heaven/`](heaven/) puts the rigged green bottle fly ([`assets/iridescent-green-bottle-fly-3d-model-free`](assets/iridescent-green-bottle-fly-3d-model-free)) into a fly-scale forest clearing built from [`assets/stylized-hand-painted-scene`](assets/stylized-hand-painted-scene), and renders a short film of it living there. **The full 166,700-neuron MaleCNS v1.0 brain (the same one `fly-wirehead` uses) decides what the fly does and when** -- feeding, grooming, escaping a falling leaf, courting and mating are all gated on calibrated firing-rate thresholds of real annotated cell types (`MN9`, `DNg12`, `DNp01`, P1, `pIP10`, `MDN`), not a scripted state machine. Only the world around that brain is scripted: physiology (hunger, temperature, dust), the female fly (no female connectome exists locally), navigation toward a sensed goal, and cosmetic poses. `heaven/brain.py`'s `describe()` and `heaven/calibrate.py`'s report say exactly which cells drive which behaviour.
