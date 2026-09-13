@@ -30,6 +30,16 @@ active-subgraph gradient equivalence, …) without downloading data or training.
 `FLY_CHESS_REAL_GRAPH=1` to exercise the real MaleCNS graph (166,606 neurons, 25.57M edges) without a
 GPU, or `FLY_CHESS_MODE=full` for the real four-hour pilot once the GPU is free.
 
+[`fly-chess-colab.ipynb`](fly-chess-colab.ipynb) is a standalone Colab port of the corrected notebook
+above — upload it to Colab (or open from Drive/GitHub), pick a GPU runtime, and `Runtime -> Run all`.
+It downloads everything itself (no local repo needed): a `pip install` cell for `chess`/`zstandard`/
+`scikit-learn`/`pyarrow`, and, in `MODE="full"`, the real MaleCNS graph built directly from the public
+HHMI Janelia / Google Research source (CC BY 4.0, checksum-verified, ~1.1 GB) instead of reusing the
+local `experiments/fruitless` build. Verified locally end-to-end in smoke mode (synthetic connectome,
+CPU); the real-graph download path is adapted from the repo's existing (uncorrected) Colab port and
+is worth watching on its first real run. This is *not* the same file as `master`'s
+`fly-chess-colab.ipynb`, which ports the original, still-buggy notebook.
+
 ## Fly Heaven: a connectome-driven film
 
 [`heaven/`](heaven/) puts the rigged green bottle fly ([`assets/iridescent-green-bottle-fly-3d-model-free`](assets/iridescent-green-bottle-fly-3d-model-free)) into a fly-scale forest clearing built from [`assets/stylized-hand-painted-scene`](assets/stylized-hand-painted-scene), and renders a short film of it living there. **The full 166,700-neuron MaleCNS v1.0 brain (the same one `fly-wirehead` uses) decides what the fly does and when** -- feeding, grooming, escaping a falling leaf, courting and mating are all gated on calibrated firing-rate thresholds of real annotated cell types (`MN9`, `DNg12`, `DNp01`, P1, `pIP10`, `MDN`), not a scripted state machine. Only the world around that brain is scripted: physiology (hunger, temperature, dust), the female fly (no female connectome exists locally), navigation toward a sensed goal, and cosmetic poses. `heaven/brain.py`'s `describe()` and `heaven/calibrate.py`'s report say exactly which cells drive which behaviour.
