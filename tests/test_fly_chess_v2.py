@@ -22,20 +22,20 @@ from torch.nn import functional as F
 NOTEBOOK = Path(__file__).resolve().parents[1] / 'fly-chess-v2.ipynb'
 
 
-def definitions(*tags):
+def definitions(*tags, notebook=NOTEBOOK):
     namespace = dict(chess=chess, np=np, torch=torch, nn=nn, F=F, math=math,
                      contextlib=contextlib, hashlib=hashlib, random=random, os=os,
                      Path=Path, json=json, time=time, pickle=pickle, DEVICE=torch.device('cpu'),
                      check_stop=lambda: None, MODE='smoke')
-    notebook = json.loads(NOTEBOOK.read_text())
+    cells = json.loads(notebook.read_text())
     for tag in tags:
-        cell = next(c for c in notebook['cells'] if tag in c['metadata'].get('tags', []))
+        cell = next(c for c in cells['cells'] if tag in c['metadata'].get('tags', []))
         module = ast.parse(''.join(cell['source']))
         if tag in ('encoding', 'search'):
             nodes = module.body
         else:
             nodes = [node for node in module.body if isinstance(node, (ast.FunctionDef, ast.ClassDef))]
-        exec(compile(ast.Module(body=nodes, type_ignores=[]), str(NOTEBOOK), 'exec'), namespace)
+        exec(compile(ast.Module(body=nodes, type_ignores=[]), str(notebook), 'exec'), namespace)
     return namespace
 
 
@@ -257,8 +257,9 @@ def test_shuffle_preserves_degrees_sign_classes_and_selfloops():
     assert (again != result).nnz == 0
 
 
-def test_resume_matches_uninterrupted_training(tmp_path):
-    ns = definitions('encoding', 'recovery', 'training_definitions')
+@pytest.mark.parametrize('notebook', [NOTEBOOK, NOTEBOOK.parent / 'fly_chess_colab_V3.ipynb'])
+def test_resume_matches_uninterrupted_training(tmp_path, notebook):
+    ns = definitions('encoding', 'recovery', 'training_definitions', notebook=notebook)
     ns.update(BATCH_SIZE=2, train_idx=np.arange(4),
               fens=np.array([chess.STARTING_FEN] * 4),
               labels_uci=np.array(['e2e4', 'd2d4', 'g1f3', 'b1c3']),
